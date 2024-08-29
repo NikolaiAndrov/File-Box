@@ -1,5 +1,8 @@
 namespace FileBox
 {
+    using FileBox.Data;
+    using Microsoft.EntityFrameworkCore;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -9,6 +12,11 @@ namespace FileBox
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             // Add services to the container.
+            builder.Services.AddDbContext<FileBoxDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
