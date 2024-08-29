@@ -6,7 +6,7 @@
     <h2>Upload Files</h2>
 </div>
 
-@using (Html.BeginForm("UploadFiles", "FileController", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", "File", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-group">
         <label for="files">Select Files</label>
