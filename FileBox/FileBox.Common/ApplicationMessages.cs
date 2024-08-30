@@ -8,6 +8,6 @@
         public const string ExistingFilesMessage = "Please select files that are not existing! Existing files in the database: ";
         public const string UnexpectedErrorMessage = "Unexpected error occurred while processing your request.";
         public const string FileNotExistingMessage = "File not found!";
-        public const string FileDeletedMessage = "The file was deleted successfully: ";
+        public const string FileDeletedMessage = "The file was deleted successfully!";
     }
 }

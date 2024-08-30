@@ -43,13 +43,19 @@
             return existingFiles;
         }
 
-        public async Task<string> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            var fileToDelete = await this.dbContext.Files.FirstAsync(f => f.Id == id);
-            this.dbContext.Files.Remove(fileToDelete!);
-            await this.dbContext.SaveChangesAsync();
+            using (var connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
 
-            return $"{fileToDelete.Name}.{fileToDelete.Extension}";
+                using (var command = new SqlCommand("DELETE FROM Files WHERE Id = @id", connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
         }
 
         public async Task<ICollection<FileViewModel>> GetAllFilesForViewingAsync()

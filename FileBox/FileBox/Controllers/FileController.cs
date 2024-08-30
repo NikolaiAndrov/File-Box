@@ -81,11 +81,9 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
-            string fileDeleted = string.Empty;
-
             try
             {
-                fileDeleted = await this.fileService.DeleteAsync(id);
+                await this.fileService.DeleteAsync(id);
             }
             catch (Exception)
             {
@@ -93,7 +91,7 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
-            this.TempData[Success] = FileDeletedMessage + fileDeleted;
+            this.TempData[Success] = FileDeletedMessage;
 
             return this.RedirectToAction("Index", "Home");
         }

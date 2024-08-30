@@ -13,6 +13,6 @@
 
         Task<bool> IsFileExistingById(int id);
 
-        Task<string> DeleteAsync(int id);
+        Task DeleteAsync(int id);
     }
 }
