@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FileBox.Common\FileBox.Common.csproj" />
     <ProjectReference Include="..\FileBox.Data\FileBox.Data.csproj" />
     <ProjectReference Include="..\FileBox.Services\FileBox.Services.csproj" />
   </ItemGroup>

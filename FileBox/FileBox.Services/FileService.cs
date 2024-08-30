@@ -15,8 +15,10 @@
             this.dbContext = dbContext;
         }
 
-        public async Task UploadFilesAsync(ICollection<IFormFile> files)
+        public async Task<ICollection<string>> UploadFilesAsync(ICollection<IFormFile> files)
         {
+            ICollection<string> filesUploaded = new List<string>();
+
             foreach (var file in files)
             {
                 if (file.Length > 0)
@@ -41,8 +43,13 @@
 
                     await this.dbContext.Files.AddAsync(newFile);
                     await this.dbContext.SaveChangesAsync();
+
+                    string fileNameUploaded = $"{name}.{extension}";
+                    filesUploaded.Add(fileNameUploaded);
                 }
             }
+
+            return filesUploaded;
         }
     }
 }

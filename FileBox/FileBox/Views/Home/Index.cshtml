@@ -1,7 +1,19 @@
-﻿@{
+﻿@using static FileBox.Common.ApplicationMessages;
+@using static FileBox.Common.GlobalConstants;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h2>Welcome to your File Box</h2>
 </div>
+
+@if (this.TempData.ContainsKey(Success))
+{
+    <div class="alert alert-success">@this.TempData[Success]</div>
+}
+else if(this.TempData.ContainsKey(Error))
+{
+    <div class="alert alert-danger">@this.TempData[Error]</div>
+}

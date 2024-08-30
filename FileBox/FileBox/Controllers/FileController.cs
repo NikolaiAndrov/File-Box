@@ -2,6 +2,8 @@
 {
     using FileBox.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
+    using static Common.ApplicationMessages;
+    using static Common.GlobalConstants;
 
     public class FileController : Controller
     {
@@ -27,16 +29,19 @@
                 return View();
             }
 
+            ICollection<string> filesUploaded = new List<string>();
+
             try
             {
-                await this.fileService.UploadFilesAsync(files);
+                filesUploaded = await this.fileService.UploadFilesAsync(files);
             }
             catch (Exception)
             {
-               // this.TempData
+                this.TempData[Error] = ErrorMessageFilesUploaded + string.Join(", ", filesUploaded);
+                return this.RedirectToAction("Index", "Home");
             }
 
-
+            this.TempData[Success] = SuccessMessageFilesUploaded + string.Join(", ", filesUploaded);
             return this.RedirectToAction("Index", "Home");
         }
     }
