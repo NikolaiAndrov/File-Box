@@ -3,6 +3,7 @@ namespace FileBox
     using FileBox.Data;
     using FileBox.Services;
     using FileBox.Services.Interfaces;
+    using Microsoft.AspNetCore.Http.Features;
     using Microsoft.EntityFrameworkCore;
 
     public class Program
@@ -17,6 +18,17 @@ namespace FileBox
             builder.Services.AddDbContext<FileBoxDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
+            });
+
+            // Configure form options to allow large uploads
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = long.MaxValue; // Maximum possible size
+            });
+
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.Limits.MaxRequestBodySize = 10L * 1024 * 1024 * 1024; // 10 GB
             });
 
             builder.Services.AddControllersWithViews();
