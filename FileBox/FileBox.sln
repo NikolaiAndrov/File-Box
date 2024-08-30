@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileBox.Services", "FileBox
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{88FC0418-0D48-478C-B1BD-66314503F004}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBox.Common", "FileBox.Common\FileBox.Common.csproj", "{320BC79B-191A-4AEC-8686-4C460EE0DA7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileBox.Common", "FileBox.Common\FileBox.Common.csproj", "{320BC79B-191A-4AEC-8686-4C460EE0DA7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBox.ViewModels", "FileBox.ViewModels\FileBox.ViewModels.csproj", "{E8A7E90B-C191-4A78-826F-EC5A819A65B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{320BC79B-191A-4AEC-8686-4C460EE0DA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{320BC79B-191A-4AEC-8686-4C460EE0DA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{320BC79B-191A-4AEC-8686-4C460EE0DA7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A7E90B-C191-4A78-826F-EC5A819A65B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A7E90B-C191-4A78-826F-EC5A819A65B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A7E90B-C191-4A78-826F-EC5A819A65B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A7E90B-C191-4A78-826F-EC5A819A65B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{48323E82-2197-4F25-A4BB-FCCD84722472} = {BAC5D1C6-4458-443F-BD78-76AD13576CCB}
 		{5D3877B9-7739-4C85-960A-5BD4190F1C5D} = {4ADE621A-44C0-4390-937F-3E6D31857248}
 		{320BC79B-191A-4AEC-8686-4C460EE0DA7C} = {88FC0418-0D48-478C-B1BD-66314503F004}
+		{E8A7E90B-C191-4A78-826F-EC5A819A65B3} = {9D157FE5-1179-489A-921B-171DD8F16FE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCEB8D79-BAE4-4917-9456-181471591AAB}

@@ -1,6 +1,7 @@
 ﻿namespace FileBox.Controllers
 {
     using FileBox.Services.Interfaces;
+    using FileBox.ViewModels.Files;
     using Microsoft.AspNetCore.Mvc;
     using static Common.ApplicationMessages;
     using static Common.GlobalConstants;
@@ -29,7 +30,7 @@
                 return View();
             }
 
-            ICollection<string> existingFiles = await this.fileService.AreAnyExistingFiles(files);
+            ICollection<string> existingFiles = await this.fileService.AreAnyExistingFilesAsync(files);
 
             if (existingFiles.Any())
             {
@@ -51,6 +52,24 @@
 
             this.TempData[Success] = SuccessMessageFilesUploaded + string.Join(", ", filesUploaded);
             return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            ICollection<FileViewModel> files;
+
+            try
+            {
+                files = await this.fileService.GetAllFilesForViewingAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return this.View(files);
         }
     }
 }

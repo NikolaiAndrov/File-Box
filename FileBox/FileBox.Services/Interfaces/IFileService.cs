@@ -1,11 +1,14 @@
 ﻿namespace FileBox.Services.Interfaces
 {
+    using FileBox.ViewModels.Files;
     using Microsoft.AspNetCore.Http;
 
     public interface IFileService
     {
         Task<ICollection<string>> UploadFilesAsync(ICollection<IFormFile> files);
 
-        Task<ICollection<string>> AreAnyExistingFiles(ICollection<IFormFile> files);
+        Task<ICollection<string>> AreAnyExistingFilesAsync(ICollection<IFormFile> files);
+
+        Task<ICollection<FileViewModel>> GetAllFilesForViewingAsync();
     }
 }

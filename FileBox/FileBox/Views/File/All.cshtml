@@ -1,0 +1,28 @@
+﻿@model ICollection<FileViewModel>
+
+ <div class="text-center mb-5">
+    <h2>Uploaded Files</h2>
+ </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>File Name</th>
+            <th>Size (MB)</th>
+            <th>Delete File</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var file in Model)
+        {
+            <tr>
+                <td>@file.Name</td>
+                <td>@file.Size</td>
+                <td>
+                    <a asp-area="" asp-controller="File" asp-action="Delete" asp-route-id="@file.Id" class="btn btn-outline-danger">Delete</a>
+                    @* You can add options like download or delete here *@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

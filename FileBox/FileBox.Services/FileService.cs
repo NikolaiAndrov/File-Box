@@ -10,6 +10,7 @@
     using Microsoft.Data.SqlClient;
     using System.Data;
     using static Common.ApplicationMessages;
+    using FileBox.ViewModels.Files;
 
     public class FileService : IFileService
     {
@@ -22,7 +23,7 @@
             this.connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<ICollection<string>> AreAnyExistingFiles(ICollection<IFormFile> files)
+        public async Task<ICollection<string>> AreAnyExistingFilesAsync(ICollection<IFormFile> files)
         {
             ICollection<string> existingFiles = new List<string>();
 
@@ -40,6 +41,21 @@
             }
 
             return existingFiles;
+        }
+
+        public async Task<ICollection<FileViewModel>> GetAllFilesForViewingAsync()
+        {
+            ICollection<FileViewModel> files = await this.dbContext.Files
+                .AsNoTracking()
+                .Select(f => new FileViewModel
+                {
+                    Id = f.Id,
+                    Name = $"{f.Name}.{f.Extension}",
+                    Size = $"{(f.Size / (1024.0 * 1024.0)):F2} MB"
+                })
+                .ToListAsync();
+
+            return files;
         }
 
         public async Task<ICollection<string>> UploadFilesAsync(ICollection<IFormFile> files)
