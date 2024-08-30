@@ -43,9 +43,9 @@
             {
                 filesUploaded = await this.fileService.UploadFilesAsync(files);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                this.TempData[Error] = ErrorMessageFilesUploaded + string.Join(", ", filesUploaded);
+                this.TempData[Error] = ex.Message;
                 return this.RedirectToAction("Index", "Home");
             }
 

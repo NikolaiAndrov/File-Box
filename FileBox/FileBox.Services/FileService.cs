@@ -6,14 +6,20 @@
     using Data.Models;
     using System.IO;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Data.SqlClient;
+    using System.Data;
+    using static Common.ApplicationMessages;
 
     public class FileService : IFileService
     {
         private readonly FileBoxDbContext dbContext;
+        private readonly string connectionString;
 
-        public FileService(FileBoxDbContext dbContext)
+        public FileService(FileBoxDbContext dbContext, IConfiguration configuration)
         {
             this.dbContext = dbContext;
+            this.connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<ICollection<string>> AreAnyExistingFiles(ICollection<IFormFile> files)
@@ -40,37 +46,50 @@
         {
             ICollection<string> filesUploaded = new List<string>();
 
-            foreach (var file in files)
+            using (var connection = new SqlConnection(connectionString))
             {
-                if (file.Length > 0)
+                await connection.OpenAsync();
+
+                using (var transaction = await connection.BeginTransactionAsync())
                 {
-                    string entireFileName = Path.GetFileName(file.FileName);
-                    int dotIndex = entireFileName.LastIndexOf('.');
-                    string name = entireFileName.Substring(0, dotIndex);
-                    string extension = entireFileName.Substring(dotIndex + 1);
-
-                    Data.Models.File newFile = new Data.Models.File
+                    try
                     {
-                        Name = name,
-                        Extension = extension,
-                        Size = file.Length,
-                    };
+                        foreach (var file in files)
+                        {
+                            if (file.Length > 0)
+                            {
+                                string entireFileName = Path.GetFileName(file.FileName);
+                                int dotIndex = entireFileName.LastIndexOf('.');
+                                string name = entireFileName.Substring(0, dotIndex);
+                                string extension = entireFileName.Substring(dotIndex + 1);
 
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await file.CopyToAsync(memoryStream);
-                        newFile.Data = memoryStream.ToArray();
+                                using (var command = new SqlCommand("INSERT INTO Files (Name, Extension, Size, Data) VALUES (@Name, @Extension, @Size, @Data)", connection, (SqlTransaction)transaction))
+                                {
+                                    command.Parameters.AddWithValue("@Name", name);
+                                    command.Parameters.AddWithValue("@Extension", extension);
+                                    command.Parameters.AddWithValue("@Size", file.Length);
+                                    command.Parameters.Add("@Data", SqlDbType.VarBinary, -1).Value = file.OpenReadStream();
+
+                                    await command.ExecuteNonQueryAsync();
+                                }
+
+                                string fileNameUploaded = $"{name}.{extension}";
+                                filesUploaded.Add(fileNameUploaded);
+                            }
+                        }
+
+                        await transaction.CommitAsync();
                     }
-
-                    await this.dbContext.Files.AddAsync(newFile);
-                    await this.dbContext.SaveChangesAsync();
-
-                    string fileNameUploaded = $"{name}.{extension}";
-                    filesUploaded.Add(fileNameUploaded);
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        throw new InvalidOperationException(UnexpectedErrorMessage, ex);
+                    }
                 }
             }
 
             return filesUploaded;
         }
+
     }
 }
