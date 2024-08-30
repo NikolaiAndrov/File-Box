@@ -1,4 +1,6 @@
-﻿@{
+﻿@using static FileBox.Common.GlobalConstants;
+
+@{
     ViewBag.Title = "Upload Files";
 }
 
@@ -13,4 +15,9 @@
         <input type="file" name="files" id="files" multiple class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary mt-1">Upload</button>
+}
+
+@if (this.TempData.ContainsKey(Error))
+{
+    <div class="alert alert-danger">@this.TempData[Error]</div>
 }

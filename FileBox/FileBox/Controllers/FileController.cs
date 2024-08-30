@@ -25,8 +25,16 @@
         {
             if (files == null || files.Count == 0)
             {
-                ModelState.AddModelError("", "Please select at least one file to upload.");
+                this.TempData[Error] = SelectFilesMessage;
                 return View();
+            }
+
+            ICollection<string> existingFiles = await this.fileService.AreAnyExistingFiles(files);
+
+            if (existingFiles.Any())
+            {
+                this.TempData[Error] = ExistingFilesMessage + string.Join(", ", existingFiles);
+                return this.View();
             }
 
             ICollection<string> filesUploaded = new List<string>();

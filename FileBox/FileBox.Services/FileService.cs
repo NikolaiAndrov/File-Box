@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Http;
     using Data.Models;
     using System.IO;
+    using Microsoft.EntityFrameworkCore;
 
     public class FileService : IFileService
     {
@@ -13,6 +14,26 @@
         public FileService(FileBoxDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task<ICollection<string>> AreAnyExistingFiles(ICollection<IFormFile> files)
+        {
+            ICollection<string> existingFiles = new List<string>();
+
+            foreach (var file in files)
+            {
+                string entireFileName = Path.GetFileName(file.FileName);
+                int dotIndex = entireFileName.LastIndexOf('.');
+                string name = entireFileName.Substring(0, dotIndex);
+                string extension = entireFileName.Substring(dotIndex + 1);
+
+                if (await this.dbContext.Files.AsNoTracking().AnyAsync(f => f.Name == name && f.Extension == extension))
+                {
+                    existingFiles.Add($"{name}.{extension}");
+                }
+            }
+
+            return existingFiles;
         }
 
         public async Task<ICollection<string>> UploadFilesAsync(ICollection<IFormFile> files)
