@@ -1,6 +1,8 @@
 namespace FileBox
 {
     using FileBox.Data;
+    using FileBox.Services;
+    using FileBox.Services.Interfaces;
     using Microsoft.EntityFrameworkCore;
 
     public class Program
@@ -18,6 +20,7 @@ namespace FileBox
             });
 
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IFileService, FileService>();
 
             var app = builder.Build();
 

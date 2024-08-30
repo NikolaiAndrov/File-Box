@@ -4,6 +4,6 @@
 
     public interface IFileService
     {
-        Task UploadFiles(ICollection<IFormFile> files);
+        Task UploadFilesAsync(ICollection<IFormFile> files);
     }
 }

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileBox.Data\FileBox.Data.csproj" />
+    <ProjectReference Include="..\FileBox.Services\FileBox.Services.csproj" />
   </ItemGroup>
 
 </Project>
