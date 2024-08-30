@@ -45,7 +45,7 @@
 
         public async Task<string> DeleteAsync(int id)
         {
-            var fileToDelete = await this.dbContext.Files.FindAsync(id);
+            var fileToDelete = await this.dbContext.Files.FirstAsync(f => f.Id == id);
             this.dbContext.Files.Remove(fileToDelete!);
             await this.dbContext.SaveChangesAsync();
 
