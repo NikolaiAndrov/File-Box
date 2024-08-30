@@ -6,6 +6,6 @@
         public const string SuccessMessageFilesUploaded = "All files were uploaded: ";
         public const string SelectFilesMessage = "Please select one or more files!";
         public const string ExistingFilesMessage = "Please select files that are not existing! Existing files in the database: ";
-        public const string UnexpectedErrorMessage = "Unexpected error occurred while uploading the files.";
+        public const string UnexpectedErrorMessage = "Unexpected error occurred while processing your request.";
     }
 }

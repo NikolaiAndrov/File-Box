@@ -65,8 +65,8 @@
             }
             catch (Exception)
             {
-
-                throw;
+                this.TempData[Error] = UnexpectedErrorMessage;
+                return this.RedirectToAction("Index", "Home");
             }
 
             return this.View(files);
