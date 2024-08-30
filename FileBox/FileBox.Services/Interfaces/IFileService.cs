@@ -10,5 +10,9 @@
         Task<ICollection<string>> AreAnyExistingFilesAsync(ICollection<IFormFile> files);
 
         Task<ICollection<FileViewModel>> GetAllFilesForViewingAsync();
+
+        Task<bool> IsFileExistingById(int id);
+
+        Task<string> DeleteAsync(int id);
     }
 }

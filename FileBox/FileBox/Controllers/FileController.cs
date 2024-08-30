@@ -71,5 +71,31 @@
 
             return this.View(files);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await this.fileService.IsFileExistingById(id) == false)
+            {
+                this.TempData[Error] = FileNotExistingMessage;
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            string fileDeleted = string.Empty;
+
+            try
+            {
+                fileDeleted = await this.fileService.DeleteAsync(id);
+            }
+            catch (Exception)
+            {
+                this.TempData[Error] = UnexpectedErrorMessage;
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            this.TempData[Success] = FileDeletedMessage + fileDeleted;
+
+            return this.RedirectToAction("Index", "Home");
+        }
     }
 }

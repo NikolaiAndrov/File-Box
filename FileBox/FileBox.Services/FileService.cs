@@ -43,6 +43,15 @@
             return existingFiles;
         }
 
+        public async Task<string> DeleteAsync(int id)
+        {
+            var fileToDelete = await this.dbContext.Files.FindAsync(id);
+            this.dbContext.Files.Remove(fileToDelete!);
+            await this.dbContext.SaveChangesAsync();
+
+            return $"{fileToDelete.Name}.{fileToDelete.Extension}";
+        }
+
         public async Task<ICollection<FileViewModel>> GetAllFilesForViewingAsync()
         {
             ICollection<FileViewModel> files = await this.dbContext.Files
@@ -56,6 +65,15 @@
                 .ToListAsync();
 
             return files;
+        }
+
+        public async Task<bool> IsFileExistingById(int id)
+        {
+            bool isExisting = await this.dbContext.Files
+                .AsNoTracking()
+                .AnyAsync(f => f.Id == id);
+
+            return isExisting;
         }
 
         public async Task<ICollection<string>> UploadFilesAsync(ICollection<IFormFile> files)
