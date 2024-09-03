@@ -11,6 +11,7 @@
     using System.Data;
     using static Common.ApplicationMessages;
     using FileBox.ViewModels.Files;
+    using System.Security.Cryptography.X509Certificates;
 
     public class FileService : IFileService
     {
@@ -103,10 +104,11 @@
                                 string name = entireFileName.Substring(0, dotIndex);
                                 string extension = entireFileName.Substring(dotIndex + 1);
 
-                                using (var command = new SqlCommand("INSERT INTO Files (Name, Extension, Size, Data) VALUES (@Name, @Extension, @Size, @Data)", connection, (SqlTransaction)transaction))
+                                using (var command = new SqlCommand("INSERT INTO Files (Name, Extension, ContentType, Size, Data) VALUES (@Name, @Extension, @ContentType, @Size, @Data)", connection, (SqlTransaction)transaction))
                                 {
                                     command.Parameters.AddWithValue("@Name", name);
                                     command.Parameters.AddWithValue("@Extension", extension);
+                                    command.Parameters.AddWithValue("@ContentType", file.ContentType);
                                     command.Parameters.AddWithValue("@Size", file.Length);
                                     command.Parameters.Add("@Data", SqlDbType.VarBinary, -1).Value = file.OpenReadStream();
 
