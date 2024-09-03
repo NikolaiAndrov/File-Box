@@ -14,6 +14,9 @@
         public string Extension { get; set; } = null!;
 
         [Required]
+        public string ContentType { get; set; } = null!;
+
+        [Required]
         public long Size { get; set; }
 
         [Required]
