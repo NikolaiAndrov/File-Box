@@ -9,5 +9,6 @@
         public const string UnexpectedErrorMessage = "Unexpected error occurred while processing your request.";
         public const string FileNotExistingMessage = "File not found!";
         public const string FileDeletedMessage = "The file was deleted successfully!";
+        public const string EmptyNameMessage = "Please provide a file with name!";
     }
 }

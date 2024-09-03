@@ -14,5 +14,7 @@
         Task<bool> IsFileExistingById(int id);
 
         Task DeleteAsync(int id);
+
+        Task<(byte[] FileData, string ContentType, string FileName)> DownloadAsync(int id);
     }
 }

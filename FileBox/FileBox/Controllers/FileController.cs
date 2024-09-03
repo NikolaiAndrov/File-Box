@@ -46,6 +46,12 @@
             }
             catch (Exception ex)
             {
+                if (ex.InnerException != null)
+                {
+                    this.TempData[Error] = ex.InnerException.Message;
+                    return this.RedirectToAction("Index", "Home");
+                }
+
                 this.TempData[Error] = ex.Message;
                 return this.RedirectToAction("Index", "Home");
             }
@@ -93,6 +99,37 @@
 
             this.TempData[Success] = FileDeletedMessage;
 
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Download(int id)
+        {
+            if (await this.fileService.IsFileExistingById(id) == false)
+            {
+                this.TempData[Error] = FileNotExistingMessage;
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            try
+            {
+                var (fileData, contentType, fileName) = await this.fileService.DownloadAsync(id);
+
+                if (fileData == null)
+                {
+                    this.TempData[Error] = FileNotExistingMessage;
+                    return this.RedirectToAction("Index", "Home");
+                }
+
+                return File(fileData, contentType, fileName);
+
+            }
+            catch (Exception)
+            {
+            }
+
+
+            this.TempData[Error] = UnexpectedErrorMessage;
             return this.RedirectToAction("Index", "Home");
         }
     }

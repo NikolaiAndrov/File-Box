@@ -3,7 +3,6 @@
     using FileBox.Data;
     using FileBox.Services.Interfaces;
     using Microsoft.AspNetCore.Http;
-    using Data.Models;
     using System.IO;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -11,7 +10,6 @@
     using System.Data;
     using static Common.ApplicationMessages;
     using FileBox.ViewModels.Files;
-    using System.Security.Cryptography.X509Certificates;
 
     public class FileService : IFileService
     {
@@ -59,6 +57,40 @@
             }
         }
 
+        public async Task<(byte[] FileData, string ContentType, string FileName)> DownloadAsync(int id)
+        {
+            byte[]? fileData = null;
+            string? contentType = null;
+            string? fileName = null;
+
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = "SELECT Name, Extension, Data, ContentType FROM Files WHERE Id = @Id";
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            string? name = reader["Name"].ToString();
+                            string? extension = reader["Extension"].ToString();
+                            fileData = (byte[])reader["Data"];
+                            contentType = reader["ContentType"].ToString();
+
+                            fileName = $"{name}.{extension}";
+                        }
+                    }
+                }
+            }
+
+            return (fileData, contentType, fileName);
+        }
+
         public async Task<ICollection<FileViewModel>> GetAllFilesForViewingAsync()
         {
             ICollection<FileViewModel> files = await this.dbContext.Files
@@ -103,6 +135,11 @@
                                 int dotIndex = entireFileName.LastIndexOf('.');
                                 string name = entireFileName.Substring(0, dotIndex);
                                 string extension = entireFileName.Substring(dotIndex + 1);
+
+                                if (string.IsNullOrWhiteSpace(name))
+                                {
+                                    throw new InvalidOperationException(EmptyNameMessage);
+                                }
 
                                 using (var command = new SqlCommand("INSERT INTO Files (Name, Extension, ContentType, Size, Data) VALUES (@Name, @Extension, @ContentType, @Size, @Data)", connection, (SqlTransaction)transaction))
                                 {
