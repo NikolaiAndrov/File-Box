@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{88FC04
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileBox.Common", "FileBox.Common\FileBox.Common.csproj", "{320BC79B-191A-4AEC-8686-4C460EE0DA7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBox.ViewModels", "FileBox.ViewModels\FileBox.ViewModels.csproj", "{E8A7E90B-C191-4A78-826F-EC5A819A65B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileBox.ViewModels", "FileBox.ViewModels\FileBox.ViewModels.csproj", "{E8A7E90B-C191-4A78-826F-EC5A819A65B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBox.Services.Models", "FileBox.Services.Models\FileBox.Services.Models.csproj", "{F0A55401-D7BD-41D2-8E5F-AA077BE86AB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{E8A7E90B-C191-4A78-826F-EC5A819A65B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8A7E90B-C191-4A78-826F-EC5A819A65B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8A7E90B-C191-4A78-826F-EC5A819A65B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A55401-D7BD-41D2-8E5F-AA077BE86AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A55401-D7BD-41D2-8E5F-AA077BE86AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A55401-D7BD-41D2-8E5F-AA077BE86AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A55401-D7BD-41D2-8E5F-AA077BE86AB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{5D3877B9-7739-4C85-960A-5BD4190F1C5D} = {4ADE621A-44C0-4390-937F-3E6D31857248}
 		{320BC79B-191A-4AEC-8686-4C460EE0DA7C} = {88FC0418-0D48-478C-B1BD-66314503F004}
 		{E8A7E90B-C191-4A78-826F-EC5A819A65B3} = {9D157FE5-1179-489A-921B-171DD8F16FE8}
+		{F0A55401-D7BD-41D2-8E5F-AA077BE86AB8} = {4ADE621A-44C0-4390-937F-3E6D31857248}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCEB8D79-BAE4-4917-9456-181471591AAB}

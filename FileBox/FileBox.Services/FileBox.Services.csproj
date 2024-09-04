@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FileBox.Common\FileBox.Common.csproj" />
     <ProjectReference Include="..\FileBox.Data\FileBox.Data.csproj" />
+    <ProjectReference Include="..\FileBox.Services.Models\FileBox.Services.Models.csproj" />
     <ProjectReference Include="..\FileBox.ViewModels\FileBox.ViewModels.csproj" />
   </ItemGroup>
 

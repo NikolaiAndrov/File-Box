@@ -10,6 +10,7 @@
     using System.Data;
     using static Common.ApplicationMessages;
     using FileBox.ViewModels.Files;
+    using FileBox.Services.Models.File;
 
     public class FileService : IFileService
     {
@@ -57,11 +58,9 @@
             }
         }
 
-        public async Task<(byte[] FileData, string ContentType, string FileName)> DownloadAsync(int id)
+        public async Task<DownloadFileModel> DownloadAsync(int id)
         {
-            byte[]? fileData = null;
-            string? contentType = null;
-            string? fileName = null;
+            DownloadFileModel model = new DownloadFileModel();
 
             using (var connection = new SqlConnection(this.connectionString))
             {
@@ -79,16 +78,16 @@
                         {
                             string? name = reader["Name"].ToString();
                             string? extension = reader["Extension"].ToString();
-                            fileData = (byte[])reader["Data"];
-                            contentType = reader["ContentType"].ToString();
+                            model.FileName = $"{name}.{extension}";
+                            model.ContentType = reader["ContentType"].ToString()!;
+                            model.Data = (byte[])reader["Data"];
 
-                            fileName = $"{name}.{extension}";
                         }
                     }
                 }
             }
 
-            return (fileData, contentType, fileName);
+            return model;
         }
 
         public async Task<ICollection<FileViewModel>> GetAllFilesForViewingAsync()

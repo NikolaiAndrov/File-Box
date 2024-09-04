@@ -1,8 +1,10 @@
 ﻿namespace FileBox.Controllers
 {
     using FileBox.Services.Interfaces;
+    using FileBox.Services.Models.File;
     using FileBox.ViewModels.Files;
     using Microsoft.AspNetCore.Mvc;
+    using System.Net.Mime;
     using static Common.ApplicationMessages;
     using static Common.GlobalConstants;
 
@@ -111,26 +113,25 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
+            DownloadFileModel model = new DownloadFileModel();
+
             try
             {
-                var (fileData, contentType, fileName) = await this.fileService.DownloadAsync(id);
-
-                if (fileData == null)
-                {
-                    this.TempData[Error] = FileNotExistingMessage;
-                    return this.RedirectToAction("Index", "Home");
-                }
-
-                return File(fileData, contentType, fileName);
-
+                model = await this.fileService.DownloadAsync(id);
             }
             catch (Exception)
             {
+                this.TempData[Error] = UnexpectedErrorMessage;
+                return this.RedirectToAction("Index", "Home");
             }
 
+            if (model.Data == null)
+            {
+                this.TempData[Error] = FileNotExistingMessage;
+                return this.RedirectToAction("Index", "Home");
+            }
 
-            this.TempData[Error] = UnexpectedErrorMessage;
-            return this.RedirectToAction("Index", "Home");
+            return File(model.Data, model.ContentType, model.FileName);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace FileBox.Services.Interfaces
 {
+    using FileBox.Services.Models.File;
     using FileBox.ViewModels.Files;
     using Microsoft.AspNetCore.Http;
 
@@ -15,6 +16,6 @@
 
         Task DeleteAsync(int id);
 
-        Task<(byte[] FileData, string ContentType, string FileName)> DownloadAsync(int id);
+        Task<DownloadFileModel> DownloadAsync(int id);
     }
 }
